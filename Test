@@ -1,0 +1,71 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication1;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/**
+ *
+ * @author aliaqat.bscs13seecs
+ */
+public class JavaApplication1Test {
+    
+    public JavaApplication1Test() {
+    }
+    
+    @BeforeClass
+    public static void setUpClass() {
+    }
+    
+    @AfterClass
+    public static void tearDownClass() {
+    }
+    
+    @Before
+    public void setUp() {
+    }
+    
+    @After
+    public void tearDown() {
+    }
+
+    /**
+     * Test of main method, of class JavaApplication1.
+     */
+    @Test
+    public void testiterative() throws Exception {
+        System.out.println("iterative multiplication");
+        
+         int[][] a = {{2,0,-1},{1,2,4}};
+        int[][] b = {{1,-1},{-1,1},{2,3}};
+          int[][] expResult = {{0,-5},{7,13}};
+        int[][] result = JavaApplication1.itmultiply(a, b);
+        Assert.assertArrayEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        
+    }
+    
+    @Test
+    public void teststrassen() throws Exception {
+        System.out.println("Strassen multiplication");
+        
+         int[][] a = {{2,0,-1},{1,2,4}};
+        int[][] b = {{1,-1},{-1,1},{2,3}};
+          int[][] expResult = {{0,-5},{7,13}};
+        int[][] result ;
+        result=JavaApplication1.strassenmultiply(a, b);
+        Assert.assertArrayEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        
+    }
+    
+}
