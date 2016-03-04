@@ -1,0 +1,158 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package lab4;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+
+/**
+ *
+ * @author aliaqat.bscs13seecs
+ */
+public class findFile {
+
+   static HashMap<String, File> hmap = new HashMap<String, File>();
+   
+    
+    
+    public void findFile(File file) throws UnsupportedEncodingException, IOException
+    {
+        File[] list = file.listFiles();
+        if(list!=null)
+        for (File fil : list)
+        {
+             String fileName = fil.getName();
+            // System.out.println(fil);
+            // System.out.println(fileName);
+            
+             
+            if (fil.isDirectory())
+    {
+        
+        for(int i = 0; i < fileName.length(); i++){
+            if(Character.isWhitespace(fileName.charAt(i))){
+                String[] splitfname = fileName.split("\\s+");
+                for (int j=0;j<splitfname.length;j++)
+                {
+                    hmap.put(splitfname[j],file);
+                }
+            }
+            else
+            hmap.put(fileName, file);
+            
+            }
+        
+       // System.out.println("directory haiiii");
+        findFile(fil);
+    }
+            else
+            {
+               if  (fil.isFile())
+               {
+                   String extension="";
+                   String[] words = null;
+                  for(int i = 0; i < fileName.length(); i++){
+            if(Character.isWhitespace(fileName.charAt(i))){
+                String[] splitfname = fileName.split("\\s+");
+                for (int j=0;j<splitfname.length;j++)
+                {
+                    hmap.put(splitfname[j],file);
+                }
+            }
+            else
+            hmap.put(fileName, file);
+            
+            }
+                  
+                  int i = fileName.lastIndexOf('.');
+                           if (i > 0) {
+                                 extension = fileName.substring(i+1);
+                                         }
+                           
+                           if (extension.equals("txt"))
+                           {
+                               try {
+        BufferedReader fr = new BufferedReader(new InputStreamReader(new FileInputStream(fil), "ASCII"));
+        while(true)
+        {
+            String line = fr.readLine();
+            if(line==null)
+                break;
+             words = line.split(" ");//those are your words
+        }
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    }
+                               if(words!=null)
+                               {
+                               for (int j=0;j<words.length;j++)
+                               {
+                                   hmap.put(words[i],fil);
+                               }
+                               }
+                               
+                               
+                           }
+                  
+                  
+                  
+               }
+            }
+            
+        }
+        
+         Set set = hmap.entrySet();
+      Iterator iterator = set.iterator();
+        while(iterator.hasNext()) {
+         Map.Entry mentry = (Map.Entry)iterator.next();
+        // System.out.print("key is: "+ mentry.getKey() + " & Value is: ");
+        // System.out.println(mentry.getValue());
+        }
+        
+        
+        
+        
+        
+        
+    };
+    
+    
+    public void search (String fname)
+    {
+         if (hmap.containsKey(fname)) {
+             System.out.println(hmap.get(fname));
+       // Okay, there's a key but the value is null
+    } else {
+       // Definitely no such key
+    }
+    }
+        
+        
+    public static void main(String[] args) throws IOException {
+        File default_dir=new File("C:\\Users\\aliaqat.bscs13seecs");
+       findFile myfile = new findFile();
+        
+        myfile.findFile(default_dir);
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter the file to be searched.. " );
+        String name = scan.next();
+        
+               
+      }
+        
+    
+    
+}
