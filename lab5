@@ -1,0 +1,199 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package database;
+
+	
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+
+/**
+ *
+ * @author aliaqat.bscs13seecs
+ */
+public class Database {
+    
+    
+     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+   static final String DB_URL = "jdbc:mysql://localhost/";
+
+   //  Database credentials
+   static final String USER = "root";
+   static final String PASS = "root";
+   static String file_path="D:\\Database.csv";
+   
+   
+   
+   
+
+   
+   
+
+  public static void make_connection ()
+  {
+      Connection conn = null;
+   Statement stmt = null;
+   try{
+      //STEP 2: Register JDBC driver
+      Class.forName("com.mysql.jdbc.Driver");
+
+      //STEP 3: Open a connection
+      System.out.println("Connecting to database...");
+      conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+      //STEP 4: Execute a query
+      System.out.println("Creating database...");
+      stmt = conn.createStatement();
+      String sql="Drop database if exists Geolitecity" ;
+      stmt.executeUpdate(sql);
+       sql = "CREATE DATABASE Geolitecity";
+      stmt.executeUpdate(sql);
+      System.out.println("Database created successfully...");
+       sql = "USE Geolitecity";
+      stmt.executeUpdate(sql);
+      sql = "CREATE TABLE info " +
+                   "(locId INTEGER not NULL, " +
+                   " country VARCHAR(10), " + 
+                   " region VARCHAR(10), " + 
+                   " city VARCHAR(20), " + 
+              " postalCode VARCHAR(20), " + 
+              " latitude double, " + 
+              " longitude double, " + 
+              " metrocode integer, " + 
+              " areacode integer, " + 
+                   "PRIMARY KEY ( locId ))"; 
+       stmt.executeUpdate(sql);
+       
+       
+       
+       PreparedStatement prep_statement = null;
+
+       
+       String splitBy = ",";
+          try (BufferedReader br = new BufferedReader(new FileReader(file_path))) {
+              String line;
+              br.readLine();
+              br.readLine();
+              
+              String[] arr=null;
+              while((line = br.readLine()) != null){
+                  //  line=line.replaceAll(",,", ",***,");
+                  String[] b = line.split(splitBy);
+                  
+                  
+                  int i=0;
+                   sql = "Insert into info(locId,country,region,city,postalCode,latitude,longitude,metrocode,areacode) values(?,?,?,?,?,?,?,?,?)";
+                  prep_statement = conn.prepareStatement(sql);
+
+                  for (String element : b) {
+                      if (element==null || element.length()==0) {
+                          System.out.println("empty element at position " + i);
+                          element="NULL";
+                      }
+                      System.out.println(element);
+                      arr[i]=element;
+                      i++;
+                  }
+                 
+           prep_statement.setInt(1, Integer.parseInt(arr[0]));  
+            prep_statement.setString(2, arr[2]); 
+            prep_statement.setString(3, arr[2]); 
+             prep_statement.setString(4, arr[3]); 
+            prep_statement.setString(5, arr[4]); 
+             prep_statement.setDouble(6, Double.parseDouble(arr[5])); 
+            prep_statement.setDouble(7, Double.parseDouble(arr[6]));
+            prep_statement.setInt(8, Integer.parseInt(arr[7])); 
+            prep_statement.setInt(9, Integer.parseInt(arr[8])); 
+            
+                  
+                  i=0;
+                 
+              }   }
+       
+       
+       
+       
+          Scanner reader = new Scanner(System.in);  // Reading from System.in
+      System.out.println("Enter city to search for: ");
+      String search = reader.nextLine();
+      sql = "SELECT latitude,longitude FROM GeoLiteCity WHERE city="+search;
+      ResultSet rs = stmt.executeQuery(sql);
+      while(rs.next()){
+         //Retrieve by column name
+         double lat  = rs.getDouble("latitude");
+         double lon  = rs.getDouble("longitude");
+         //String first = rs.getString("first");
+         //String last = rs.getString("last");
+
+         //Display values
+         System.out.print("lat: " + lat);
+         System.out.print(", lon: " + lon);
+        // System.out.print(", First: " + first);
+        // System.out.println(", Last: " + last);
+      }
+      rs.close();
+       
+       
+       
+       
+       
+       
+       
+       
+   }catch(SQLException se){
+      if (se.getErrorCode() == 1007) {
+            // Database already exists error
+            System.out.println("Databse already exists"); }
+      se.printStackTrace();
+   }catch(Exception e){
+      //Handle errors for Class.forName
+      e.printStackTrace();
+   }finally{
+      //finally block used to close resources
+      try{
+         if(stmt!=null)
+            stmt.close();
+      }catch(SQLException se2){
+      }// nothing we can do
+      try{
+         if(conn!=null)
+            conn.close();
+      }catch(SQLException se){
+         se.printStackTrace();
+      }//end finally try
+   }//end try
+   System.out.println("Goodbye!");
+}//end main
+  
+  
+  public static void assign_file_to_database (String file_path) throws FileNotFoundException, IOException
+  {
+       
+      
+  }
+ 
+
+   
+   
+   public static void main(String[] args) throws IOException {
+   
+   make_connection();
+   //assign_file_to_database("D:\\GeoLiteCity.csv");
+   }
+   
+   
+}//end JDBCExample
+    
+
