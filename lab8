@@ -1,0 +1,110 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package coin.change;
+
+/**
+ *
+ * @author aliaqat.bscs13seecs
+ */
+public class CoinChange {
+
+    /**
+     * @param args the command line arguments
+     */
+    static int[] denom={1,5,10,25};
+   static String change="";
+    
+    static String greedy (int num)
+    {
+        int largest=0;
+        while(largest!=num)
+        {    
+             num=num-largest;
+             largest=0;
+        for (int i=0;i<denom.length;i++)
+        {   //  System.out.println("num : "+num);
+            if((num>=denom[i]) && (denom[i]>largest))
+            {
+                largest=denom[i];
+            }
+        }
+        change=change+" "+largest;
+      
+        //  System.out.println("largest "+ largest);
+           
+        }        
+                 
+        return change;
+            
+    }
+ 
+    static int dynamic (int num)
+    {
+        int[] C=new int [num+1];
+        int remaining_amount;
+        String[] coins_used=new String[num+1];
+         for (int j=0;j<num+1;j++)
+         {
+             C[j]=Integer.MAX_VALUE;
+             coins_used[j]="" ;
+         }
+        C[0]=0;
+       
+        for (int j=0;j<num;j++)
+        {
+            
+                        
+            //coins_used[j]="";
+            int cur_amount=j+1;
+            int amount=cur_amount;
+            int coin_count=0;
+         while(amount>0)
+         {
+             coin_count++;
+            int val=0;
+             for (int i=0;i<denom.length;i++)
+        { 
+           
+            System.out.println("cur maount ki value : "+cur_amount);
+            if(cur_amount>=denom[i])
+            {  val = 1+C[cur_amount-denom[i]];
+            System.out.println("value ki val ye ha "+val);
+            System.out.println("C ki val ye ha "+C[cur_amount-denom[i]]);
+            }
+            
+        }
+             coins_used[j]=coins_used[j]+" "+val;
+             
+         amount=amount-val;    
+    System.out.println("coins sued : "+coins_used[j]);
+         }
+    
+         C[j+1]=coin_count;
+     }  
+            
+     
+    // System.out.println("j ki value : "+j);
+     //System.out.println("C ki value : "+C[j]);
+     
+      
+        
+	
+      return C[num];	
+		
+		
+
+        
+    }
+  
+    
+    public static void main(String[] args) {
+        // TODO code application logic here
+        
+        System.out.println(greedy(60));
+        System.out.println(dynamic(5));
+    }
+    
+}
