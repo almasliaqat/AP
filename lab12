@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <bean id="Attendance" class="attendance.entity.Attendance">
+       <property name="atndnc" value="Hello World!"/>
+   </bean>
+   
+   <bean id="Course" class="attendance.entity.Course">
+       <property name="crs" value="Hello World!"/>
+   </bean>
+   
+   <bean id="Student" class="attendance.entity.Student">
+       <property name="stndnt" value="Hello World!"/>
+   </bean>
+   
+   <bean id="Teacher" class="attendance.entity.Teacher">
+       <property name="tchr" value="Hello World!"/>
+   </bean>
+   
+   <bean id="Clo" class="pk.edu.nust.seecs.gradebook.entity.Clo">
+       <property name="clo" value="Hello World!"/>
+   </bean>
+   
+   <bean id="Content" class="pk.edu.nust.seecs.gradebook.entity.Content">
+       <property name="cntnt" value="Hello World!"/>
+   </bean>
+   
+   <bean id="Course" class="pk.edu.nust.seecs.gradebook.entity.Course">
+       <property name="corse" value="Hello World!"/>
+   </bean>
+   
+   <bean id="Grade" class="pk.edu.nust.seecs.gradebook.entity.Grade">
+       <property name="grd" value="Hello World!"/>
+   </bean>
+   
+   <bean id="Student" class="pk.edu.nust.seecs.gradebook.entity.Student">
+       <property name="stdnt" value="Hello World!"/>
+   </bean>
+   
+   <bean id="Teacher" class="pk.edu.nust.seecs.gradebook.entity.Teacher">
+       <property name="tchr" value="Hello World!"/>
+   </bean>
+   
+   
+
+</beans>
